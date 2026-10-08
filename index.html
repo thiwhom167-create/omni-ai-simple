@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OMNI">
+<meta name="theme-color" content="#7c3aed">
+<title>OMNI-AI</title>
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22OMNI-AI%22%2C%22short_name%22%3A%22OMNI%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0b10%22%2C%22theme_color%22%3A%22%237c3aed%22%7D">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+  body {
+    background: #0b0b10;
+    color: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; border-bottom: 1px solid #1f2937;
+    background: rgba(11,11,16,0.95); backdrop-filter: blur(10px);
+    flex-shrink: 0;
+  }
+  .logo { font-size: 18px; font-weight: 700; }
+  .logo span { color: #7c3aed; }
+  .hdr-btns { display: flex; gap: 8px; }
+  .hdr-btn {
+    background: #1f2937; color: #fff; border: none;
+    padding: 8px 12px; border-radius: 8px; font-size: 13px;
+    cursor: pointer; max-width: 180px; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap;
+  }
+  #messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .msg-wrap { max-width: 800px; margin: 0 auto; }
+  .msg {
+    display: flex; margin-bottom: 12px;
+  }
+  .msg.user { justify-content: flex-end; }
+  .bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 16px;
+    font-size: 15px; line-height: 1.5; word-break: break-word;
+    white-space: pre-wrap;
+  }
+  .msg.user .bubble { background: #7c3aed; color: #fff; }
+  .msg.assistant .bubble { background: #1f2937; color: #fff; }
+  #welcome {
+    text-align: center; margin-top: 25vh; color: #6b7280;
+  }
+  #welcome .icon { font-size: 48px; margin-bottom: 12px; }
+  #welcome .hi { font-size: 22px; font-weight: 600; color: #f5f5f5; }
+  #welcome .sub { margin-top: 8px; font-size: 14px; }
+  .composer {
+    border-top: 1px solid #1f2937;
+    padding: 12px 12px max(env(safe-area-inset-bottom), 12px);
+    background: rgba(11,11,16,0.95); backdrop-filter: blur(10px);
+    flex-shrink: 0;
+  }
+  .composer-inner {
+    max-width: 800px; margin: 0 auto;
+    display: flex; gap: 8px; align-items: flex-end;
+  }
+  #input {
+    flex: 1; resize: none; border-radius: 20px;
+    border: 1px solid #374151; background: #1a1a24;
+    color: #fff; padding: 12px 16px; font-size: 16px;
+    max-height: 140px; font-family: inherit;
+    outline: none;
+  }
+  #input:focus { border-color: #7c3aed; }
+  #send {
+    background: #7c3aed; color: #fff; border: none;
+    border-radius: 20px; width: 48px; height: 48px;
+    font-size: 20px; cursor: pointer; flex-shrink: 0;
+    transition: opacity 0.15s;
+  }
+  #send:disabled { opacity: 0.4; }
+  #send.busy { background: #4b5563; }
+  .picker {
+    position: fixed; top: 60px; right: 16px; z-index: 100;
+    background: #1a1a24; border: 1px solid #374151;
+    border-radius: 12px; padding: 8px; min-width: 260px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: none;
+  }
+  .picker.open { display: block; }
+  .picker button {
+    display: block; width: 100%; text-align: left;
+    background: transparent; color: #fff; border: none;
+    padding: 10px 12px; border-radius: 8px; font-size: 14px;
+    cursor: pointer;
+  }
+  .picker button:hover { background: rgba(255,255,255,0.05); }
+  .picker button.active { background: #7c3aed; }
+  .typing { display: inline-block; }
+  .typing::after { content: '…'; animation: dots 1.2s infinite; }
+  @keyframes dots { 0%,20% { content: '.'; } 40% { content: '..'; } 60%,100% { content: '...'; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span>OMNI</span>-AI</div>
+  <div class="hdr-btns">
+    <button class="hdr-btn" id="modelBtn">⚡ Llama 3.3 ▾</button>
+    <button class="hdr-btn" id="newBtn">+ ใหม่</button>
+  </div>
+</header>
+
+<div class="picker" id="picker"></div>
+
+<div id="messages">
+  <div id="welcome">
+    <div class="icon">✨</div>
+    <div class="hi">สวัสดีครับ</div>
+    <div class="sub">พิมพ์ข้อความเพื่อเริ่มแชท</div>
+  </div>
+  <div class="msg-wrap" id="msgWrap"></div>
+</div>
+
+<div class="composer">
+  <div class="composer-inner">
+    <textarea id="input" rows="1" placeholder="พิมพ์ข้อความ..."></textarea>
+    <button id="send">➤</button>
+  </div>
+</div>
+
+<script>
+// ⚠️ แก้ URL นี้เป็น URL ของ label Worker ที่คุณ deploy
+const API_URL = 'https://omni-api.YOUR-NAME.workers.dev';
+
+const MODELS = [
+  { id: 'groq:llama-3.3-70b-versatile', label: '⚡ Llama 3.3 70B' },
+  { id: 'groq:llama-3.1-8b-instant',    label: '⚡ Llama 3.1 8B เร็ว' },
+  { id: 'groq:mixtral-8x7b-32768',      label: '⚡ Mixtral 8x7B' },
+  { id: 'gemini:gemini-2.0-flash-exp',  label: '✨ Gemini 2.0 Flash' },
+  { id: 'gemini:gemini-1.5-flash',     : '✨ Gemini 1.5 Flash' },
+  { id: 'openrouter:meta-llama/llama-3.3-70b-instruct:free', label: '🌐 Llama 3.3 (OR)' },
+  { id: 'openrouter:deepseek/deepseek-r1:free', label: '🌐 DeepSeek R1 (OR)' }
+];
+
+let messages = [];
+let model = MODELS[0].id;
+let busy = false;
+const $ = (id) => document.getElementById(id);
+
+// ── Model picker ──
+function renderPicker() {
+  const p = $('picker');
+  p.innerHTML = MODELS.map(m =>
+    `<button data-id="${m.id}" class="${m.id === model ? 'active' : ''}">${m.label}</button>`
+  ).join('');
+  p.querySelectorAll('button').forEach(btn => {
+    btn.onclick = () => {
+      model = btn.dataset.id;
+      const found = MODELS.find(m => m.id === model);
+      $('modelBtn').textContent = (found?.label ?? model) + ' ▾';
+      p.classList.remove('open');
+    };
+  });
+}
+$('modelBtn').onclick = (e) => {
+  e.stopPropagation();
+  renderPicker();
+  $('picker').classList.toggle('open');
+};
+document.addEventListener('click', () => $('picker').classList.remove('open'));
+
+// ── New chat ──
+$('newBtn').onclick = () => {
+  if (messages.length && !confirm('เริ่มแชทใหม่?')) return;
+  messages = [];
+  $('msgWrap').innerHTML = '';
+  $('welcome').style.display = 'block';
+};
+
+// ── Auto-resize textarea ──
+const ta = $('input');
+ta.addEventListener('input', () => {
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight, 140) + 'px';
+});
+ta.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    send();
+  }
+});
+
+// ── Send ──
+async function send() {
+  const text = ta.value.trim();
+  if (!text || busy) return;
+  ta.value = '';
+  ta.style.height = 'auto';
+  $('welcome').style.display = 'none';
+
+  messages.push({ role: 'user', content: text });
+  addBubble('user', text);
+  const asstEl = addBubble('assistant', '');
+  busy = true;
+  $('send').classList.add('busy');
+  $('send').textContent = '⏳';
+
+  const [provider, ...rest] = model.split(':');
+  const modelName = rest.join(':');
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ provider, model: modelName, messages })
+    });
+    if (!res.ok || !res.body) throw new Error('HTTP ' + res.status);
+
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '';
+    let full = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop() ?? '';
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]') continue;
+        try {
+          const j = JSON.parse(data);
+          // Groq / OpenRouter
+          const t1 = j.choices?.[0]?.delta?.content;
+          if (t1) { full += t1; asstEl.textContent = full; }
+          // Gemini
+          const t2 = j.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (t2) { full += t2; asstEl.textContent = full; }
+        } catch {}
+      }
+    }
+    messages.push({ role: 'assistant', content: full });
+  } catch (e) {
+    asstEl.textContent = '⚠️ ' + e.message;
+  } finally {
+    busy = false;
+    $('send').classList.remove('busy');
+    $('send').textContent = '➤';
+    scrollBottom();
+  }
+}
+
+function addBubble(role, text) {
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + role;
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+  if (role === 'assistant' && !text) bubble.innerHTML = '<span class="typing"></span>';
+  wrap.appendChild(bubble);
+  $('msgWrap').appendChild(wrap);
+  scrollBottom();
+  return bubble;
+}
+
+function scrollBottom() {
+  const m = $('messages');
+  requestAnimationFrame(() => m.scrollTop = m.scrollHeight);
+}
+
+$('send').onclick = send;
+renderPicker();
+$('modelBtn').textContent = MODELS[0].label + ' ▾';
+</script>
+
+</body>
+</html>
