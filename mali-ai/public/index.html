@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Mali AI ผู้ช่วย AI ภาษาไทย ถามได้ทั้งเรื่องเรียน งาน และไอเดียใหม่ ๆ">
+  <title>Mali AI — ผู้ช่วย AI ของคุณ</title>
+  <style>
+    :root{color-scheme:light;--bg:#f7f8fc;--panel:#fff;--ink:#20243a;--muted:#747990;--line:#e7e9f1;--purple:#7057e8;--purple2:#8d76ff;--soft:#f0edff;--shadow:0 16px 45px rgba(40,35,90,.08)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans Thai",Tahoma,system-ui,-apple-system,sans-serif;min-height:100vh}
+    button,textarea{font:inherit} button{cursor:pointer} .app{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1500px;margin:auto;padding:14px;gap:14px}
+    .sidebar{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:18px;display:flex;flex-direction:column;min-height:calc(100vh - 28px)}
+    .brand{display:flex;align-items:center;gap:11px;padding:5px 4px 22px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:15px;color:white;background:linear-gradient(135deg,var(--purple),#ad8bff);font-size:22px;font-weight:800;box-shadow:0 7px 18px #8d76ff45}.brand-name{font-size:19px;font-weight:800;letter-spacing:-.4px}.brand-tag{color:var(--muted);font-size:11px;margin-top:2px}
+    .new-chat{width:100%;border:0;border-radius:14px;padding:12px 14px;background:var(--soft);color:#5b45cf;font-weight:700;text-align:left;display:flex;align-items:center;gap:9px}.new-chat:hover{background:#e7e1ff}.side-label{margin:25px 8px 10px;color:#a0a3b5;font-size:11px;font-weight:800;letter-spacing:1px}.history-empty{font-size:12px;color:#9a9db0;line-height:1.65;padding:0 8px}.side-spacer{flex:1}.note{background:#faf9ff;border:1px solid #eeeaff;border-radius:15px;padding:12px;font-size:12px;color:#77718f;line-height:1.6}.note strong{color:#6250bf;display:block;margin-bottom:3px}.sidebar-foot{color:#a0a3b5;font-size:11px;margin:17px 4px 0}
+    .main{min-width:0;display:flex;flex-direction:column;min-height:calc(100vh - 28px);background:var(--panel);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}.topbar{display:flex;align-items:center;justify-content:space-between;padding:19px 25px;border-bottom:1px solid var(--line);gap:12px}.top-title{font-size:14px;font-weight:800}.online{font-size:11px;color:#3a9b79;background:#e9faf4;padding:7px 10px;border-radius:30px;display:flex;align-items:center;gap:7px;white-space:nowrap}.dot{height:7px;width:7px;background:#35c594;border-radius:50%}
+    .content{width:min(820px,100%);margin:0 auto;flex:1;display:flex;flex-direction:column;padding:30px 24px 0;min-height:0}.welcome{text-align:center;margin:auto 0;padding:20px 0 34px}.spark{font-size:33px;margin-bottom:14px}.welcome h1{font-size:clamp(25px,3vw,37px);letter-spacing:-.8px;margin:0 0 12px;font-weight:800}.welcome h1 span{background:linear-gradient(90deg,#7057e8,#ad79eb);background-clip:text;-webkit-background-clip:text;color:transparent}.welcome p{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.8;max-width:470px}.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:26px auto 0;max-width:620px;text-align:left}.suggestion{border:1px solid var(--line);background:white;border-radius:15px;padding:14px 15px;color:var(--ink);transition:.18s}.suggestion:hover{border-color:#b8aaff;transform:translateY(-2px);background:#fcfbff}.suggestion b{font-size:13px;display:block;margin-bottom:5px}.suggestion span{font-size:11px;color:var(--muted);line-height:1.55;display:block}
+    .messages{display:flex;flex-direction:column;gap:18px;padding:4px 0 28px}.message{display:flex;gap:10px;align-items:flex-start;max-width:100%}.message.user{flex-direction:row-reverse}.avatar{flex:0 0 32px;height:32px;display:grid;place-items:center;border-radius:11px;background:var(--soft);color:#6d55e5;font-size:13px;font-weight:800}.message.user .avatar{background:#22253c;color:#fff}.bubble{padding:13px 16px;border-radius:16px;line-height:1.8;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:calc(100% - 42px)}.assistant .bubble{background:#f6f6fb;border-top-left-radius:5px}.user .bubble{background:#7057e8;color:#fff;border-top-right-radius:5px}.typing{color:var(--muted);font-size:13px;padding:8px 0}.dots{display:inline-flex;gap:4px;margin-left:6px}.dots i{width:5px;height:5px;background:#8c7be5;border-radius:50%;animation:pulse .9s infinite alternate}.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}@keyframes pulse{to{opacity:.25;transform:translateY(-3px)}}
+    .composer-wrap{width:min(820px,100%);margin:0 auto;padding:0 24px 13px}.composer{border:1px solid #dedff0;border-radius:20px;padding:10px 11px 10px 16px;box-shadow:0 8px 25px #34315a0b;display:flex;align-items:flex-end;gap:10px;background:#fff}.composer:focus-within{border-color:#a99af9;box-shadow:0 0 0 3px #8d76ff18}.composer textarea{border:0;outline:0;resize:none;min-height:30px;max-height:140px;flex:1;line-height:1.6;color:var(--ink);padding:5px 0;background:transparent;font-size:14px}.composer textarea::placeholder{color:#a0a2b3}.send{width:42px;height:42px;flex:0 0 42px;border:0;border-radius:14px;background:var(--purple);color:white;display:grid;place-items:center;font-size:20px;transition:.15s}.send:hover{background:#5d44db}.send:disabled{opacity:.45;cursor:not-allowed}.disclaimer{text-align:center;color:#a0a2b3;font-size:10px;line-height:1.7;padding:0 16px 12px}.menu-mobile{display:none;border:1px solid var(--line);background:white;border-radius:10px;padding:8px 10px;color:var(--ink)}
+    @media(max-width:760px){.app{display:block;padding:0;min-height:100dvh}.sidebar{display:none}.main{min-height:100dvh;border:0;border-radius:0;box-shadow:none}.topbar{padding:14px 16px}.content{padding:23px 16px 0}.composer-wrap{padding:0 12px 10px}.welcome{padding:15px 0 25px}.suggestions{grid-template-columns:1fr;gap:8px;margin-top:20px}.suggestion{padding:12px 14px}.suggestion span{font-size:12px}.online{font-size:10px}.bubble{font-size:13px;padding:11px 13px}.disclaimer{font-size:9px}.menu-mobile{display:block}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">✦</div><div><div class="brand-name">Mali AI</div><div class="brand-tag">YOUR THAI AI ASSISTANT</div></div></div>
+      <button class="new-chat" id="newChat"><span style="font-size:19px">＋</span> เริ่มแชตใหม่</button>
+      <div class="side-label">แชตปัจจุบัน</div><div class="history-empty" id="sideHint">เริ่มถามคำถามแรกของคุณได้เลย ประวัติแชตจะแสดงในหน้านี้ระหว่างที่เปิดเว็บ</div>
+      <div class="side-spacer"></div>
+      <div class="note"><strong>✦ เคล็ดลับ</strong>ถามให้ชัดเจน หรือบอกบริบทเพิ่มเติม เพื่อให้ AI ช่วยได้ตรงใจมากขึ้น</div>
+      <div class="sidebar-foot">Mali AI · เวอร์ชันทดลอง</div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div style="display:flex;align-items:center;gap:10px"><button class="menu-mobile" id="mobileNew" aria-label="เริ่มแชตใหม่">＋</button><div><div class="top-title">แชตกับ AI</div><div style="font-size:11px;color:var(--muted);margin-top:3px">ถามได้ทุกเรื่อง เริ่มต้นได้ที่นี่</div></div></div><div class="online"><span class="dot"></span><span id="statusText">ผู้ช่วยพร้อมทำงาน</span></div></header>
+      <section class="content" id="content" aria-live="polite">
+        <div class="welcome" id="welcome"><div class="spark">✦</div><h1>วันนี้ให้ <span>Mali AI</span><br>ช่วยเรื่องอะไรดี?</h1><p>ถามคำถาม ขอไอเดีย ช่วยสรุปเรื่องยาก ๆ หรือให้ช่วยคิดแผนงานของคุณได้เลย</p>
+          <div class="suggestions">
+            <button class="suggestion" data-prompt="ช่วยคิดไอเดียทำรายได้ออนไลน์โดยเริ่มต้นงบ 0 บาท"><b>💡 หาไอเดียใหม่ ๆ</b><span>ช่วยระดมความคิดและวางแผนเริ่มต้น</span></button>
+            <button class="suggestion" data-prompt="ช่วยอธิบายเรื่องที่ยากให้เข้าใจง่าย พร้อมยกตัวอย่าง"><b>📚 เรียนรู้เรื่องยาก</b><span>อธิบายทีละขั้นตอน พร้อมตัวอย่าง</span></button>
+            <button class="suggestion" data-prompt="ช่วยเขียนโพสต์ขายสินค้าให้น่าสนใจ โดยถามข้อมูลสินค้าฉันก่อน"><b>✍️ ช่วยเขียนคอนเทนต์</b><span>โพสต์ขายของ แคปชัน และข้อความต่าง ๆ</span></button>
+            <button class="suggestion" data-prompt="ช่วยวางแผนเป้าหมายของฉันเป็นขั้นตอนที่ทำได้จริง"><b>🗓️ วางแผนงาน</b><span>เปลี่ยนเป้าหมายให้เป็นขั้นตอนเล็ก ๆ</span></button>
+          </div>
+        </div>
+        <div class="messages" id="messages" hidden></div>
+      </section>
+      <div class="composer-wrap"><form id="chatForm" class="composer"><textarea id="prompt" rows="1" maxlength="5000" placeholder="พิมพ์ข้อความถึง Mali AI..." aria-label="พิมพ์คำถาม"></textarea><button class="send" id="send" aria-label="ส่งข้อความ" type="submit">↑</button></form></div>
+      <div class="disclaimer">AI อาจตอบผิดพลาดได้ โปรดตรวจสอบข้อมูลสำคัญอีกครั้ง · อย่าส่งรหัสผ่านหรือข้อมูลส่วนตัวที่ละเอียดอ่อน</div>
+    </main>
+  </div>
+<script>
+  const form = document.querySelector('#chatForm');
+  const input = document.querySelector('#prompt');
+  const sendButton = document.querySelector('#send');
+  const messagesBox = document.querySelector('#messages');
+  const welcome = document.querySelector('#welcome');
+  const statusText = document.querySelector('#statusText');
+  const sideHint = document.querySelector('#sideHint');
+  let history = [];
+  let waiting = false;
+
+  function resizeInput(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,140)+'px'; }
+  input.addEventListener('input',resizeInput);
+  input.addEventListener('keydown',(event)=>{
+    if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();form.requestSubmit();}
+  });
+
+  function addMessage(role,text){
+    const row=document.createElement('div'); row.className='message '+role;
+    const avatar=document.createElement('div'); avatar.className='avatar'; avatar.textContent=role==='user'?'คุณ':'✦';
+    const bubble=document.createElement('div'); bubble.className='bubble'; bubble.textContent=text;
+    row.append(avatar,bubble); messagesBox.append(row); return row;
+  }
+  function scrollToBottom(){ messagesBox.lastElementChild?.scrollIntoView({behavior:'smooth',block:'end'}); }
+  function setWaiting(value){ waiting=value; sendButton.disabled=value; input.disabled=value; statusText.textContent=value?'กำลังคิดคำตอบ...':'ผู้ช่วยพร้อมทำงาน'; }
+
+  async function sendMessage(rawText){
+    const text=rawText.trim(); if(!text||waiting) return;
+    welcome.hidden=true; messagesBox.hidden=false;
+    history.push({role:'user',content:text}); addMessage('user',text);
+    sideHint.textContent=text.length>44?text.slice(0,44)+'…':text;
+    input.value=''; resizeInput(); setWaiting(true);
+    const typing=addMessage('assistant','กำลังคิดคำตอบ…'); typing.querySelector('.bubble').innerHTML='กำลังคิดคำตอบ<span class="dots"><i></i><i></i><i></i></span>';
+    scrollToBottom();
+    try{
+      const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(data.error||'ขออภัย เกิดข้อผิดพลาด กรุณาลองอีกครั้ง');
+      typing.querySelector('.bubble').textContent=data.answer;
+      history.push({role:'assistant',content:data.answer});
+    }catch(error){
+      typing.querySelector('.bubble').textContent=error.message||'เชื่อมต่อไม่สำเร็จ กรุณาลองใหม่';
+      history.pop();
+    }finally{setWaiting(false);input.focus();scrollToBottom();}
+  }
+  function newChat(){history=[];messagesBox.replaceChildren();messagesBox.hidden=true;welcome.hidden=false;input.value='';resizeInput();sideHint.textContent='เริ่มถามคำถามแรกของคุณได้เลย ประวัติแชตจะแสดงในหน้านี้ระหว่างที่เปิดเว็บ';statusText.textContent='ผู้ช่วยพร้อมทำงาน';input.focus();}
+  form.addEventListener('submit',(event)=>{event.preventDefault();sendMessage(input.value);});
+  document.querySelector('#newChat').addEventListener('click',newChat);
+  document.querySelector('#mobileNew').addEventListener('click',newChat);
+  document.querySelectorAll('[data-prompt]').forEach(button=>button.addEventListener('click',()=>sendMessage(button.dataset.prompt)));
+</script>
+</body>
+</html>
