@@ -3,100 +3,292 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f8fc">
-  <meta name="description" content="Mali AI ผู้ช่วย AI ภาษาไทย ถามได้ทั้งเรื่องเรียน งาน และไอเดียใหม่ ๆ">
-  <title>Mali AI — ผู้ช่วย AI ของคุณ</title>
+  <meta name="theme-color" content="#11101b">
+  <meta name="description" content="Mali AI — ศูนย์กลางผู้ช่วย AI คลาวด์ส่วนตัว และระบบหลังบ้าน">
+  <title>Mali AI — ศูนย์กลางระบบส่วนตัว</title>
   <style>
-    :root{color-scheme:light;--bg:#f7f8fc;--panel:#fff;--ink:#20243a;--muted:#747990;--line:#e7e9f1;--purple:#7057e8;--purple2:#8d76ff;--soft:#f0edff;--shadow:0 16px 45px rgba(40,35,90,.08)}
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans Thai",Tahoma,system-ui,-apple-system,sans-serif;min-height:100vh}
-    button,textarea{font:inherit} button{cursor:pointer} .app{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1500px;margin:auto;padding:14px;gap:14px}
-    .sidebar{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:18px;display:flex;flex-direction:column;min-height:calc(100vh - 28px)}
-    .brand{display:flex;align-items:center;gap:11px;padding:5px 4px 22px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:15px;color:white;background:linear-gradient(135deg,var(--purple),#ad8bff);font-size:22px;font-weight:800;box-shadow:0 7px 18px #8d76ff45}.brand-name{font-size:19px;font-weight:800;letter-spacing:-.4px}.brand-tag{color:var(--muted);font-size:11px;margin-top:2px}
-    .new-chat{width:100%;border:0;border-radius:14px;padding:12px 14px;background:var(--soft);color:#5b45cf;font-weight:700;text-align:left;display:flex;align-items:center;gap:9px}.new-chat:hover{background:#e7e1ff}.side-label{margin:25px 8px 10px;color:#a0a3b5;font-size:11px;font-weight:800;letter-spacing:1px}.history-empty{font-size:12px;color:#9a9db0;line-height:1.65;padding:0 8px}.side-spacer{flex:1}.note{background:#faf9ff;border:1px solid #eeeaff;border-radius:15px;padding:12px;font-size:12px;color:#77718f;line-height:1.6}.note strong{color:#6250bf;display:block;margin-bottom:3px}.sidebar-foot{color:#a0a3b5;font-size:11px;margin:17px 4px 0}
-    .main{min-width:0;display:flex;flex-direction:column;min-height:calc(100vh - 28px);background:var(--panel);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}.topbar{display:flex;align-items:center;justify-content:space-between;padding:19px 25px;border-bottom:1px solid var(--line);gap:12px}.top-title{font-size:14px;font-weight:800}.online{font-size:11px;color:#3a9b79;background:#e9faf4;padding:7px 10px;border-radius:30px;display:flex;align-items:center;gap:7px;white-space:nowrap}.dot{height:7px;width:7px;background:#35c594;border-radius:50%}
-    .content{width:min(820px,100%);margin:0 auto;flex:1;display:flex;flex-direction:column;padding:30px 24px 0;min-height:0}.welcome{text-align:center;margin:auto 0;padding:20px 0 34px}.spark{font-size:33px;margin-bottom:14px}.welcome h1{font-size:clamp(25px,3vw,37px);letter-spacing:-.8px;margin:0 0 12px;font-weight:800}.welcome h1 span{background:linear-gradient(90deg,#7057e8,#ad79eb);background-clip:text;-webkit-background-clip:text;color:transparent}.welcome p{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.8;max-width:470px}.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:26px auto 0;max-width:620px;text-align:left}.suggestion{border:1px solid var(--line);background:white;border-radius:15px;padding:14px 15px;color:var(--ink);transition:.18s}.suggestion:hover{border-color:#b8aaff;transform:translateY(-2px);background:#fcfbff}.suggestion b{font-size:13px;display:block;margin-bottom:5px}.suggestion span{font-size:11px;color:var(--muted);line-height:1.55;display:block}
-    .messages{display:flex;flex-direction:column;gap:18px;padding:4px 0 28px}.message{display:flex;gap:10px;align-items:flex-start;max-width:100%}.message.user{flex-direction:row-reverse}.avatar{flex:0 0 32px;height:32px;display:grid;place-items:center;border-radius:11px;background:var(--soft);color:#6d55e5;font-size:13px;font-weight:800}.message.user .avatar{background:#22253c;color:#fff}.bubble{padding:13px 16px;border-radius:16px;line-height:1.8;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:calc(100% - 42px)}.assistant .bubble{background:#f6f6fb;border-top-left-radius:5px}.user .bubble{background:#7057e8;color:#fff;border-top-right-radius:5px}.typing{color:var(--muted);font-size:13px;padding:8px 0}.dots{display:inline-flex;gap:4px;margin-left:6px}.dots i{width:5px;height:5px;background:#8c7be5;border-radius:50%;animation:pulse .9s infinite alternate}.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}@keyframes pulse{to{opacity:.25;transform:translateY(-3px)}}
-    .composer-wrap{width:min(820px,100%);margin:0 auto;padding:0 24px 13px}.composer{border:1px solid #dedff0;border-radius:20px;padding:10px 11px 10px 16px;box-shadow:0 8px 25px #34315a0b;display:flex;align-items:flex-end;gap:10px;background:#fff}.composer:focus-within{border-color:#a99af9;box-shadow:0 0 0 3px #8d76ff18}.composer textarea{border:0;outline:0;resize:none;min-height:30px;max-height:140px;flex:1;line-height:1.6;color:var(--ink);padding:5px 0;background:transparent;font-size:14px}.composer textarea::placeholder{color:#a0a2b3}.send{width:42px;height:42px;flex:0 0 42px;border:0;border-radius:14px;background:var(--purple);color:white;display:grid;place-items:center;font-size:20px;transition:.15s}.send:hover{background:#5d44db}.send:disabled{opacity:.45;cursor:not-allowed}.disclaimer{text-align:center;color:#a0a2b3;font-size:10px;line-height:1.7;padding:0 16px 12px}.menu-mobile{display:none;border:1px solid var(--line);background:white;border-radius:10px;padding:8px 10px;color:var(--ink)}
-    @media(max-width:760px){.app{display:block;padding:0;min-height:100dvh}.sidebar{display:none}.main{min-height:100dvh;border:0;border-radius:0;box-shadow:none}.topbar{padding:14px 16px}.content{padding:23px 16px 0}.composer-wrap{padding:0 12px 10px}.welcome{padding:15px 0 25px}.suggestions{grid-template-columns:1fr;gap:8px;margin-top:20px}.suggestion{padding:12px 14px}.suggestion span{font-size:12px}.online{font-size:10px}.bubble{font-size:13px;padding:11px 13px}.disclaimer{font-size:9px}.menu-mobile{display:block}}
+    :root{color-scheme:dark;--bg:#0d0c14;--panel:#151421;--panel2:#1c1a2b;--ink:#f4f2ff;--muted:#a6a2bd;--line:#302d45;--purple:#8b73ff;--purple2:#6f55ed;--soft:#282342;--green:#46d6a3;--yellow:#f2c56b;--red:#ff8b9b;--shadow:0 18px 50px #0003}
+    *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0%,#282047 0,transparent 34%),var(--bg);color:var(--ink);font-family:Inter,"Noto Sans Thai",Tahoma,system-ui,-apple-system,sans-serif}
+    button,textarea{font:inherit}button{cursor:pointer;color:inherit}.app{width:min(1500px,100%);min-height:100vh;margin:auto;padding:14px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:14px}
+    .sidebar{background:#141320eF;border:1px solid var(--line);border-radius:24px;padding:18px;display:flex;flex-direction:column;min-height:calc(100vh - 28px)}
+    .brand{display:flex;align-items:center;gap:12px;padding:3px 4px 24px}.logo{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;font-size:23px;font-weight:900;background:linear-gradient(140deg,#8e79ff,#4c35bc);box-shadow:0 8px 24px #624ce64a}.brand-name{font-size:19px;font-weight:850;letter-spacing:-.4px}.brand-tag{color:var(--muted);font-size:10px;margin-top:3px;letter-spacing:1px}
+    .nav-label{font-size:10px;color:#85809e;font-weight:800;letter-spacing:1.4px;padding:6px 10px 10px}.nav{display:grid;gap:5px}.nav button{width:100%;display:flex;align-items:center;gap:11px;background:transparent;border:1px solid transparent;color:#b9b5cb;text-align:left;padding:11px 12px;border-radius:12px;font-size:13px}.nav button .ico{width:23px;text-align:center;font-size:17px}.nav button:hover{background:#201e31;color:white}.nav button.active{background:var(--soft);border-color:#40346c;color:#e7e1ff;font-weight:750}.side-spacer{flex:1;min-height:20px}.side-note{padding:12px;border-radius:14px;border:1px solid #3b3459;background:linear-gradient(140deg,#242039,#191725);font-size:11px;line-height:1.75;color:var(--muted)}.side-note b{color:#d9d0ff;display:block;margin-bottom:4px;font-size:12px}.side-foot{font-size:10px;color:#77728f;padding:15px 4px 0}
+    .main{min-width:0;min-height:calc(100vh - 28px);display:flex;flex-direction:column;background:#12111beF;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 23px;border-bottom:1px solid var(--line);background:#151421c9}.top-title{font-weight:800;font-size:15px}.top-sub{color:var(--muted);font-size:11px;margin-top:4px}.top-actions{display:flex;align-items:center;gap:8px}.live-pill{display:flex;gap:7px;align-items:center;padding:7px 10px;background:#18322d;border:1px solid #245144;color:#a7f0d7;border-radius:30px;font-size:10px;white-space:nowrap}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px #46d6a377}.btn{border:1px solid var(--line);border-radius:11px;padding:9px 12px;background:#211f31;color:#ebe7ff;font-size:12px;font-weight:700}.btn:hover{border-color:#6552b1;background:#2a2541}.btn.primary{background:var(--purple2);border-color:var(--purple2);color:#fff}.btn.primary:hover{background:#856cf7}.content{width:min(100%,1050px);margin:0 auto;padding:27px 27px 30px;flex:1}.page[hidden]{display:none!important}.eyebrow{font-size:10px;font-weight:850;letter-spacing:1.8px;color:#a698ff;text-transform:uppercase}.hero{padding:24px 0 22px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}.hero h1{font-size:clamp(25px,3.5vw,37px);line-height:1.25;letter-spacing:-.8px;margin:10px 0 10px}.hero h1 span{color:#ab9bff}.hero p{margin:0;color:var(--muted);line-height:1.85;font-size:13px;max-width:650px}.hero-icon{display:grid;place-items:center;flex:0 0 82px;width:82px;height:82px;font-size:37px;border-radius:26px;background:linear-gradient(135deg,#2b2448,#191724);border:1px solid #43395f}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat{background:linear-gradient(145deg,#1b1929,#151420);border:1px solid var(--line);border-radius:17px;padding:15px;min-width:0}.stat-head{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:11px;color:var(--muted)}.stat-ico{font-size:19px}.stat strong{display:block;font-size:15px;margin-top:12px}.tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;border-radius:30px;padding:5px 8px;margin-top:9px;background:#252339;color:#d2caff}.tag.ok{background:#17332c;color:#9df0d5}.tag.pending{background:#3b3020;color:#f5d797}.tag.off{background:#302331;color:#f0afbd}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:26px 0 12px}.section-head h2{margin:0;font-size:16px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:11px;line-height:1.7}.panel{background:linear-gradient(145deg,#191827,#151420);border:1px solid var(--line);border-radius:18px;padding:18px}.panel p{color:var(--muted);font-size:12px;line-height:1.85;margin:8px 0}.info-row{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid #2b293c}.info-row:last-child{border-bottom:0;padding-bottom:0}.info-icon{width:35px;height:35px;display:grid;place-items:center;flex:0 0 35px;border-radius:11px;background:#29243f;font-size:17px}.info-row h3{font-size:13px;margin:0 0 4px}.info-row p{margin:0;font-size:11px;line-height:1.7;color:var(--muted)}.two-col{display:grid;grid-template-columns:1.2fr .8fr;gap:13px}.callout{padding:14px 16px;border:1px solid #5a4728;background:#282116;border-radius:14px;color:#f2dba5;font-size:11px;line-height:1.85;margin-top:16px}.callout b{display:block;font-size:12px;margin-bottom:4px}
+    .quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.quick-card{border:1px solid var(--line);background:#191827;border-radius:16px;padding:16px;text-align:left;transition:.15s}.quick-card:hover{border-color:#6452a6;transform:translateY(-2px)}.quick-card .qico{font-size:22px}.quick-card b{display:block;font-size:13px;margin:10px 0 5px}.quick-card span{display:block;color:var(--muted);font-size:11px;line-height:1.7}
+    .chat-layout{min-height:530px;display:flex;flex-direction:column}.chat-intro{text-align:center;padding:35px 0 28px}.chat-intro .spark{font-size:34px}.chat-intro h1{font-size:27px;margin:10px 0}.chat-intro p{font-size:12px;line-height:1.8;color:var(--muted);max-width:540px;margin:0 auto}.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-width:640px;margin:23px auto 0;text-align:left}.suggestion{background:#1b192a;border:1px solid var(--line);border-radius:13px;padding:12px;text-align:left}.suggestion:hover{border-color:#6655ad}.suggestion b{display:block;font-size:12px;margin-bottom:5px}.suggestion span{font-size:10px;color:var(--muted);line-height:1.6;display:block}.messages{display:flex;flex-direction:column;gap:15px;padding:6px 0 20px}.message{display:flex;gap:9px;align-items:flex-start}.message.user{flex-direction:row-reverse}.avatar{flex:0 0 31px;width:31px;height:31px;border-radius:10px;background:#2c2546;color:#d6cdff;display:grid;place-items:center;font-size:12px;font-weight:800}.message.user .avatar{background:#5143a6;color:white}.bubble{max-width:calc(100% - 42px);border-radius:14px;padding:12px 14px;background:#201e30;font-size:13px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}.message.user .bubble{background:#5845bd;color:white}.composer-wrap{position:sticky;bottom:0;margin-top:auto;padding:10px 0 0;background:linear-gradient(0deg,#12111b 82%,#12111b00)}.composer{display:flex;align-items:flex-end;gap:8px;padding:9px 10px 9px 14px;border:1px solid #3a3651;border-radius:17px;background:#1a1827}.composer:focus-within{border-color:#7966db;box-shadow:0 0 0 3px #8974ff17}.composer textarea{min-width:0;flex:1;resize:none;background:transparent;border:0;outline:0;color:var(--ink);font:inherit;font-size:13px;line-height:1.7;min-height:29px;max-height:130px;padding:5px 0}.composer textarea::placeholder{color:#827d99}.send{width:39px;height:39px;flex:0 0 39px;border:0;border-radius:12px;background:var(--purple2);font-size:20px}.send:disabled{opacity:.5}.disclaimer{text-align:center;font-size:10px;color:#77728c;margin:10px 0 0;line-height:1.7}
+    .feature-list{display:grid;gap:9px}.feature-item{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);background:#1a1928;border-radius:13px}.feature-item .f-icon{font-size:18px}.feature-item b{display:block;font-size:12px;margin-bottom:4px}.feature-item span{display:block;font-size:11px;color:var(--muted);line-height:1.7}.step{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}.step:last-child{border:0}.step-no{height:34px;width:34px;display:grid;place-items:center;background:#2b2547;border:1px solid #4b3f76;border-radius:11px;font-size:12px;font-weight:850;color:#d9d0ff}.step b{font-size:12px}.step p{margin:5px 0 0;font-size:11px;color:var(--muted);line-height:1.8}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;font-size:11px;color:#cfc5ff}
+    footer{color:#6f6b84;font-size:10px;text-align:center;padding:0 10px 17px;line-height:1.7}
+    @media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:730px){.app{display:flex;flex-direction:column;gap:8px;padding:8px;min-height:100dvh}.sidebar{min-height:auto;border-radius:17px;padding:11px 12px}.brand{padding:2px 3px 10px}.logo{width:36px;height:36px;border-radius:12px;font-size:19px}.brand-name{font-size:16px}.brand-tag{font-size:9px}.nav-label{display:none}.nav{display:flex;gap:5px;overflow-x:auto;padding-bottom:3px;scrollbar-width:thin}.nav button{width:auto;flex:0 0 auto;padding:9px 10px;font-size:11px;white-space:nowrap}.nav button .ico{font-size:14px;width:auto}.side-spacer,.side-note,.side-foot{display:none}.main{min-height:calc(100dvh - 125px);border-radius:17px}.topbar{padding:13px 14px}.top-title{font-size:13px}.top-sub{font-size:10px}.live-pill{font-size:9px;padding:6px 8px}.content{padding:18px 13px 20px}.hero{padding:18px 0;align-items:flex-start}.hero h1{font-size:25px}.hero p{font-size:12px}.hero-icon{width:55px;height:55px;flex-basis:55px;border-radius:18px;font-size:25px}.grid{gap:8px}.stat{padding:12px;border-radius:14px}.stat-head{font-size:10px}.stat strong{font-size:13px}.section-head{margin-top:21px}.section-head h2{font-size:14px}.panel{padding:14px;border-radius:15px}.quick-grid{grid-template-columns:1fr;gap:8px}.quick-card{display:grid;grid-template-columns:30px 1fr;column-gap:9px;padding:12px}.quick-card .qico{grid-row:span 2}.quick-card b{margin:0 0 3px}.quick-card span{font-size:10px}.chat-layout{min-height:420px}.chat-intro{padding:21px 0}.chat-intro h1{font-size:23px}.suggestions{grid-template-columns:1fr;gap:7px}.suggestion{padding:11px}.suggestion span{font-size:10px}.bubble{font-size:12px;padding:10px 12px}.composer textarea{font-size:12px}.disclaimer{font-size:9px}.two-col{gap:10px}}
+    @media(max-width:370px){.nav button{padding:8px;font-size:10px}.grid{grid-template-columns:1fr 1fr}.stat-head{align-items:flex-start}}
   </style>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand"><div class="logo">✦</div><div><div class="brand-name">Mali AI</div><div class="brand-tag">YOUR THAI AI ASSISTANT</div></div></div>
-      <button class="new-chat" id="newChat"><span style="font-size:19px">＋</span> เริ่มแชตใหม่</button>
-      <div class="side-label">แชตปัจจุบัน</div><div class="history-empty" id="sideHint">เริ่มถามคำถามแรกของคุณได้เลย ประวัติแชตจะแสดงในหน้านี้ระหว่างที่เปิดเว็บ</div>
-      <div class="side-spacer"></div>
-      <div class="note"><strong>✦ เคล็ดลับ</strong>ถามให้ชัดเจน หรือบอกบริบทเพิ่มเติม เพื่อให้ AI ช่วยได้ตรงใจมากขึ้น</div>
-      <div class="sidebar-foot">Mali AI · เวอร์ชันทดลอง</div>
-    </aside>
-    <main class="main">
-      <header class="topbar"><div style="display:flex;align-items:center;gap:10px"><button class="menu-mobile" id="mobileNew" aria-label="เริ่มแชตใหม่">＋</button><div><div class="top-title">แชตกับ AI</div><div style="font-size:11px;color:var(--muted);margin-top:3px">ถามได้ทุกเรื่อง เริ่มต้นได้ที่นี่</div></div></div><div class="online"><span class="dot"></span><span id="statusText">ผู้ช่วยพร้อมทำงาน</span></div></header>
-      <section class="content" id="content" aria-live="polite">
-        <div class="welcome" id="welcome"><div class="spark">✦</div><h1>วันนี้ให้ <span>Mali AI</span><br>ช่วยเรื่องอะไรดี?</h1><p>ถามคำถาม ขอไอเดีย ช่วยสรุปเรื่องยาก ๆ หรือให้ช่วยคิดแผนงานของคุณได้เลย</p>
-          <div class="suggestions">
-            <button class="suggestion" data-prompt="ช่วยคิดไอเดียทำรายได้ออนไลน์โดยเริ่มต้นงบ 0 บาท"><b>💡 หาไอเดียใหม่ ๆ</b><span>ช่วยระดมความคิดและวางแผนเริ่มต้น</span></button>
-            <button class="suggestion" data-prompt="ช่วยอธิบายเรื่องที่ยากให้เข้าใจง่าย พร้อมยกตัวอย่าง"><b>📚 เรียนรู้เรื่องยาก</b><span>อธิบายทีละขั้นตอน พร้อมตัวอย่าง</span></button>
-            <button class="suggestion" data-prompt="ช่วยเขียนโพสต์ขายสินค้าให้น่าสนใจ โดยถามข้อมูลสินค้าฉันก่อน"><b>✍️ ช่วยเขียนคอนเทนต์</b><span>โพสต์ขายของ แคปชัน และข้อความต่าง ๆ</span></button>
-            <button class="suggestion" data-prompt="ช่วยวางแผนเป้าหมายของฉันเป็นขั้นตอนที่ทำได้จริง"><b>🗓️ วางแผนงาน</b><span>เปลี่ยนเป้าหมายให้เป็นขั้นตอนเล็ก ๆ</span></button>
-          </div>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">✦</div><div><div class="brand-name">Mali AI</div><div class="brand-tag">PRIVATE AI WORKSPACE</div></div></div>
+    <div class="nav-label">ศูนย์กลางระบบ</div>
+    <nav class="nav" aria-label="เมนูหลัก">
+      <button class="active" data-view="overview"><span class="ico">◈</span> ภาพรวม</button>
+      <button data-view="chat"><span class="ico">✦</span> แชต AI</button>
+      <button data-view="cloud"><span class="ico">☁</span> คลาวด์ส่วนตัว</button>
+      <button data-view="accounts"><span class="ico">♙</span> บัญชีผู้ใช้</button>
+      <button data-view="backup"><span class="ico">⟲</span> สำรองข้อมูล</button>
+      <button data-view="server"><span class="ico">▤</span> เซิร์ฟเวอร์</button>
+    </nav>
+    <div class="side-spacer"></div>
+    <div class="side-note"><b>✦ สรุปโปรเจกต์ของคุณ</b>รวมผู้ช่วย AI, เซิร์ฟเวอร์ส่วนตัว, พื้นที่ไฟล์, บัญชีผู้ใช้ และการสำรองข้อมูลไว้ในหน้าเดียว ส่วนที่ยังไม่มีหลังบ้านจริงจะแสดงสถานะตามจริง</div>
+    <div class="side-foot">Mali AI · ศูนย์กลางส่วนตัว · เวอร์ชันรวมระบบ</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><div class="top-title" id="pageTitle">ภาพรวมระบบ</div><div class="top-sub" id="pageSub">สถานะของผู้ช่วย AI และองค์ประกอบคลาวด์ส่วนตัว</div></div>
+      <div class="top-actions"><div class="live-pill"><span class="dot" id="healthDot"></span><span id="statusText">กำลังตรวจสอบ...</span></div><button class="btn" id="refreshBtn">↻ ตรวจสอบ</button></div>
+    </header>
+
+    <div class="content">
+      <section class="page" id="view-overview">
+        <div class="hero"><div><div class="eyebrow">YOUR PERSONAL AI HUB</div><h1>ทุกระบบของคุณ<br><span>รวมอยู่ในที่เดียว</span></h1><p>ศูนย์กลางสำหรับผู้ช่วย AI, เซิร์ฟเวอร์, คลาวด์ส่วนตัว และแผนระบบหลังบ้าน ออกแบบให้เปิดจากมือถือหรือคอมพิวเตอร์ได้</p></div><div class="hero-icon">✦</div></div>
+        <div class="grid">
+          <div class="stat"><div class="stat-head"><span>ผู้ช่วย AI</span><span class="stat-ico">✦</span></div><strong id="aiCardTitle">กำลังตรวจสอบ</strong><span class="tag" id="aiCardTag">ตรวจสอบ API</span></div>
+          <div class="stat"><div class="stat-head"><span>พื้นที่คลาวด์</span><span class="stat-ico">☁</span></div><strong>ยังไม่เชื่อมต่อ</strong><span class="tag pending">ต้องทำหลังบ้าน</span></div>
+          <div class="stat"><div class="stat-head"><span>บัญชีผู้ใช้</span><span class="stat-ico">♙</span></div><strong>ยังไม่เปิดใช้งาน</strong><span class="tag pending">ต้องมีฐานข้อมูล</span></div>
+          <div class="stat"><div class="stat-head"><span>สำรองข้อมูล</span><span class="stat-ico">⟲</span></div><strong>ยังไม่ตั้งค่า</strong><span class="tag pending">ยังไม่มีงานสำรอง</span></div>
         </div>
-        <div class="messages" id="messages" hidden></div>
+        <div class="section-head"><div><h2>เปิดส่วนที่ต้องการ</h2><p>เลือกหน้าใช้งานจากด้านล่างได้เลย</p></div></div>
+        <div class="quick-grid">
+          <button class="quick-card" data-view="chat"><span class="qico">✦</span><b>แชตกับ Mali AI</b><span>ถามคำถาม สรุปข้อมูล วางแผน และช่วยคิดไอเดียผ่าน API ของเว็บไซต์</span></button>
+          <button class="quick-card" data-view="cloud"><span class="qico">☁</span><b>คลาวด์และไฟล์ส่วนตัว</b><span>ข้อกำหนดสำหรับพื้นที่เก็บไฟล์ออนไลน์ที่เปิดได้จากหลายอุปกรณ์</span></button>
+          <button class="quick-card" data-view="server"><span class="qico">▤</span><b>สถานะเซิร์ฟเวอร์</b><span>ตรวจสอบ API และดูข้อจำกัดของโฮสต์ปัจจุบัน</span></button>
+        </div>
+        <div class="callout"><b>สำคัญ: สถานะปัจจุบัน</b>เว็บไซต์แชต AI มีโค้ดหน้าเว็บและ API แล้ว แต่พื้นที่เก็บไฟล์บนคลาวด์ บัญชีผู้ใช้ และระบบสำรองข้อมูลจริงยังไม่ได้เชื่อมต่อ จึงยังไม่ควรใช้เก็บไฟล์สำคัญหรือถือว่าเป็นคลาวด์ถาวร</div>
+        <div class="section-head"><div><h2>สรุปสิ่งที่ต้องการสร้าง</h2><p>เป้าหมายรวมจากโปรเจกต์ของคุณ</p></div><button class="btn" id="downloadSummary">ดาวน์โหลดสรุป .txt</button></div>
+        <div class="panel">
+          <div class="info-row"><div class="info-icon">✦</div><div><h3>ผู้ช่วย AI ของคุณ</h3><p>หน้าแชตภาษาไทยสำหรับถามตอบและทำงานจากมือถือหรือคอมพิวเตอร์</p></div></div>
+          <div class="info-row"><div class="info-icon">☁</div><div><h3>คลาวด์ส่วนตัวและพื้นที่เก็บไฟล์</h3><p>เป้าหมายคืออัปโหลด ดาวน์โหลด และเข้าถึงไฟล์จากทุกที่ โดยต้องมีพื้นที่เก็บข้อมูลถาวรและสิทธิ์แยกตามบัญชี</p></div></div>
+          <div class="info-row"><div class="info-icon">♙</div><div><h3>บัญชีผู้ใช้และความปลอดภัย</h3><p>ต้องมีระบบสมัคร/เข้าสู่ระบบ การแยกข้อมูลของแต่ละบัญชี การจัดการสิทธิ์ และการจัดเก็บรหัสผ่านแบบปลอดภัย</p></div></div>
+          <div class="info-row"><div class="info-icon">⟲</div><div><h3>สำรองและกู้คืน</h3><p>ต้องกำหนดรอบสำรองข้อมูล ตรวจสอบการสำรอง และมีวิธีกู้คืนไฟล์หรือข้อมูลเมื่อเกิดปัญหา</p></div></div>
+          <div class="info-row"><div class="info-icon">▤</div><div><h3>เซิร์ฟเวอร์ออนไลน์</h3><p>ต้องใช้โฮสต์และฐานข้อมูลที่เก็บข้อมูลถาวร พร้อมตรวจสอบสถานะและกำหนดงบประมาณให้เหมาะสม</p></div></div>
+        </div>
       </section>
-      <div class="composer-wrap"><form id="chatForm" class="composer"><textarea id="prompt" rows="1" maxlength="5000" placeholder="พิมพ์ข้อความถึง Mali AI..." aria-label="พิมพ์คำถาม"></textarea><button class="send" id="send" aria-label="ส่งข้อความ" type="submit">↑</button></form></div>
-      <div class="disclaimer">AI อาจตอบผิดพลาดได้ โปรดตรวจสอบข้อมูลสำคัญอีกครั้ง · อย่าส่งรหัสผ่านหรือข้อมูลส่วนตัวที่ละเอียดอ่อน</div>
-    </main>
-  </div>
+
+      <section class="page" id="view-chat" hidden>
+        <div class="chat-layout">
+          <div class="chat-intro" id="chatWelcome"><div class="spark">✦</div><div class="eyebrow">MALI AI ASSISTANT</div><h1>วันนี้ให้ Mali AI ช่วยอะไรดี?</h1><p>ถามคำถาม ขอไอเดีย วางแผน หรือให้ช่วยสรุปเรื่องที่ซับซ้อนได้เลย</p>
+            <div class="suggestions">
+              <button class="suggestion" data-prompt="ช่วยสรุปโปรเจกต์ AI และคลาวด์ส่วนตัวทั้งหมดของฉัน พร้อมแยกว่าส่วนไหนทำแล้วและส่วนไหนยังขาด"><b>◈ สรุปโปรเจกต์ทั้งหมด</b><span>รวม AI เซิร์ฟเวอร์ พื้นที่เก็บไฟล์ บัญชี และแบ็กอัป</span></button>
+              <button class="suggestion" data-prompt="ช่วยวางแผนสร้างคลาวด์ส่วนตัวที่เก็บไฟล์ได้ถาวร เข้าถึงจากมือถือและคอมพิวเตอร์ พร้อมระบบบัญชีและสำรองข้อมูล"><b>☁ วางแผนคลาวด์ส่วนตัว</b><span>แยกส่วนหน้าเว็บ หลังบ้าน และพื้นที่เก็บข้อมูล</span></button>
+              <button class="suggestion" data-prompt="ช่วยออกแบบระบบหลังบ้านสำหรับบัญชีผู้ใช้ การเก็บไฟล์ และสิทธิ์การเข้าถึงอย่างปลอดภัย"><b>♙ ออกแบบบัญชีผู้ใช้</b><span>บัญชี ความปลอดภัย และการแยกข้อมูล</span></button>
+              <button class="suggestion" data-prompt="ช่วยอธิบายสถานะเซิร์ฟเวอร์ปัจจุบันและสิ่งที่ต้องทำให้เว็บไซต์ทำงานต่อเนื่องพร้อมเก็บข้อมูลถาวร"><b>▤ ตรวจแผนเซิร์ฟเวอร์</b><span>โฮสต์ ฐานข้อมูล และพื้นที่เก็บข้อมูลถาวร</span></button>
+            </div>
+          </div>
+          <div class="messages" id="messages" hidden></div>
+          <div class="composer-wrap"><form id="chatForm" class="composer"><textarea id="prompt" rows="1" maxlength="5000" placeholder="พิมพ์ข้อความถึง Mali AI..." aria-label="พิมพ์คำถาม"></textarea><button class="send" id="send" type="submit" aria-label="ส่งข้อความ">↑</button></form><div class="disclaimer">AI อาจตอบผิดพลาดได้ โปรดตรวจสอบข้อมูลสำคัญ และอย่าส่งรหัสผ่านหรือข้อมูลลับ</div></div>
+        </div>
+      </section>
+
+      <section class="page" id="view-cloud" hidden>
+        <div class="hero"><div><div class="eyebrow">PRIVATE CLOUD STORAGE</div><h1>คลาวด์ส่วนตัว<br><span>ของคุณ</span></h1><p>เป้าหมายคือพื้นที่ไฟล์ออนไลน์ที่เข้าถึงได้จากมือถือและคอมพิวเตอร์ ไม่ใช่แค่ไฟล์ที่เก็บอยู่ในเบราว์เซอร์เครื่องเดียว</p></div><div class="hero-icon">☁</div></div>
+        <div class="callout"><b>สถานะ: ยังไม่พร้อมเก็บไฟล์จริง</b>หน้าเว็บปัจจุบันยังไม่มี API สำหรับอัปโหลดไฟล์ ไม่มีพื้นที่เก็บข้อมูลถาวรที่เชื่อมอยู่ และไม่มีระบบสิทธิ์ไฟล์ จึงยังไม่ควรใช้เก็บไฟล์สำคัญ</div>
+        <div class="section-head"><div><h2>ส่วนประกอบที่จำเป็น</h2><p>ระบบจะทำงานจริงได้เมื่อเชื่อมต่อครบ</p></div></div>
+        <div class="panel feature-list">
+          <div class="feature-item"><span class="f-icon">📦</span><div><b>พื้นที่เก็บไฟล์ถาวร</b><span>ใช้ object storage หรือดิสก์ถาวรที่เหมาะกับขนาดไฟล์ พร้อมกำหนดโควตาและข้อจำกัดการอัปโหลด</span></div></div>
+          <div class="feature-item"><span class="f-icon">🔐</span><div><b>สิทธิ์การเข้าถึงไฟล์</b><span>ตรวจสอบว่าผู้ใช้เป็นเจ้าของไฟล์ก่อนดู ดาวน์โหลด เปลี่ยนชื่อ หรือลบข้อมูล</span></div></div>
+          <div class="feature-item"><span class="f-icon">🔎</span><div><b>รายการไฟล์และค้นหา</b><span>จัดเก็บชื่อ ขนาด ประเภทไฟล์ วันที่สร้าง และตำแหน่งไฟล์ในฐานข้อมูล</span></div></div>
+          <div class="feature-item"><span class="f-icon">⟲</span><div><b>สำรองและกู้คืน</b><span>แยกชุดสำรองออกจากพื้นที่ใช้งานหลัก และทดสอบการกู้คืนเป็นระยะ</span></div></div>
+        </div>
+        <div class="section-head"><div><h2>ขอบเขตการใช้งาน</h2><p>ออกแบบสำหรับอุปกรณ์หลายเครื่อง</p></div></div>
+        <div class="two-col">
+          <div class="panel"><h3 style="margin:0;font-size:13px">จากมือถือหรือคอมพิวเตอร์</h3><p>เข้าสู่ระบบจากเบราว์เซอร์ แล้วเข้าถึงไฟล์ชุดเดียวกันผ่านเซิร์ฟเวอร์กลาง ไม่ใช่เก็บไฟล์แยกไว้ในแต่ละอุปกรณ์</p></div>
+          <div class="panel"><h3 style="margin:0;font-size:13px">ข้อมูลที่ยังต้องมี</h3><p>บริการพื้นที่เก็บข้อมูลถาวร, API อัปโหลด/ดาวน์โหลด, ฐานข้อมูล, ระบบยืนยันตัวตน และการสำรองข้อมูล</p></div>
+        </div>
+      </section>
+
+      <section class="page" id="view-accounts" hidden>
+        <div class="hero"><div><div class="eyebrow">IDENTITY & ACCESS</div><h1>บัญชีผู้ใช้<br><span>และสิทธิ์การเข้าถึง</span></h1><p>บัญชีผู้ใช้ต้องเป็นระบบจริงที่ตรวจสอบตัวตนและปกป้องข้อมูลของแต่ละคนแยกจากกัน</p></div><div class="hero-icon">♙</div></div>
+        <div class="callout"><b>สถานะ: ยังไม่เปิดใช้งาน</b>เว็บไซต์ปัจจุบันยังไม่มีการสมัครสมาชิกหรือเข้าสู่ระบบ และยังไม่มีฐานข้อมูลสำหรับบัญชี ไม่ควรใส่ข้อมูลส่วนตัวหรือรหัสผ่านลงในแชตเพื่อใช้แทนระบบบัญชี</div>
+        <div class="panel feature-list">
+          <div class="feature-item"><span class="f-icon">1</span><div><b>สมัครและเข้าสู่ระบบ</b><span>ตรวจสอบข้อมูลผู้ใช้และใช้ session หรือ token ที่มีอายุเหมาะสม</span></div></div>
+          <div class="feature-item"><span class="f-icon">2</span><div><b>รหัสผ่านปลอดภัย</b><span>เก็บเฉพาะค่า hash ที่เหมาะสม ไม่เก็บรหัสผ่านเป็นข้อความธรรมดา และห้ามส่ง secret กลับไปยังหน้าเว็บ</span></div></div>
+          <div class="feature-item"><span class="f-icon">3</span><div><b>แยกข้อมูลรายบัญชี</b><span>ตรวจสิทธิ์ฝั่งเซิร์ฟเวอร์ทุกครั้งสำหรับไฟล์ ประวัติ และการตั้งค่าของผู้ใช้</span></div></div>
+          <div class="feature-item"><span class="f-icon">4</span><div><b>การกู้คืนบัญชีและบันทึกเหตุการณ์</b><span>มีวิธีเปลี่ยนรหัสผ่าน และบันทึกเหตุการณ์ด้านความปลอดภัยโดยไม่เก็บข้อมูลลับเกินจำเป็น</span></div></div>
+        </div>
+      </section>
+
+      <section class="page" id="view-backup" hidden>
+        <div class="hero"><div><div class="eyebrow">BACKUP & RECOVERY</div><h1>สำรองข้อมูล<br><span>และกู้คืน</span></h1><p>การสำรองข้อมูลต้องทำอัตโนมัติ ตรวจสอบได้ และกู้คืนได้จริง ไม่ใช่เพียงปุ่มดาวน์โหลดที่หน้าเว็บ</p></div><div class="hero-icon">⟲</div></div>
+        <div class="callout"><b>สถานะ: ยังไม่มีการสำรองข้อมูลอัตโนมัติ</b>ตอนนี้ยังไม่มีระบบจัดเก็บไฟล์หรือฐานข้อมูลของผู้ใช้ที่เชื่อมกับงานสำรองข้อมูล อย่าใช้เว็บไซต์นี้เป็นสำเนาเดียวของไฟล์สำคัญ</div>
+        <div class="panel">
+          <div class="step"><div class="step-no">01</div><div><b>สำรองฐานข้อมูล</b><p>ตั้งเวลาสำรองข้อมูลบัญชี ประวัติ และ metadata พร้อมกำหนดระยะเวลาเก็บรักษา</p></div></div>
+          <div class="step"><div class="step-no">02</div><div><b>สำรองไฟล์แยกจากระบบหลัก</b><p>ใช้พื้นที่สำรองอีกชุดหนึ่งที่ไม่ถูกลบพร้อมกับไฟล์ใช้งานหลัก</p></div></div>
+          <div class="step"><div class="step-no">03</div><div><b>ตรวจผลการสำรอง</b><p>บันทึกผลสำเร็จ/ล้มเหลว แจ้งเตือนเมื่อผิดพลาด และอย่าสมมติว่าการสำรองเสร็จเพียงเพราะงานเริ่มทำงาน</p></div></div>
+          <div class="step"><div class="step-no">04</div><div><b>ทดสอบการกู้คืน</b><p>ทดลองกู้คืนชุดสำรองเป็นระยะ เพื่อยืนยันว่าข้อมูลนำกลับมาใช้ได้จริง</p></div></div>
+        </div>
+      </section>
+
+      <section class="page" id="view-server" hidden>
+        <div class="hero"><div><div class="eyebrow">SERVER & API STATUS</div><h1>สถานะเซิร์ฟเวอร์<br><span>ของ Mali AI</span></h1><p>ตรวจสุขภาพ API ที่มีอยู่ พร้อมดูข้อจำกัดของโฮสต์ปัจจุบันซึ่งมีผลต่อการให้บริการตลอดเวลาและการเก็บข้อมูลถาวร</p></div><div class="hero-icon">▤</div></div>
+        <div class="grid">
+          <div class="stat"><div class="stat-head"><span>เว็บเซิร์ฟเวอร์</span><span class="stat-ico">▤</span></div><strong id="serverState">กำลังตรวจสอบ</strong><span class="tag" id="serverTag">รอผลตรวจ</span></div>
+          <div class="stat"><div class="stat-head"><span>API สำหรับแชต</span><span class="stat-ico">✦</span></div><strong id="apiState">กำลังตรวจสอบ</strong><span class="tag" id="apiTag">/api/health</span></div>
+          <div class="stat"><div class="stat-head"><span>เก็บไฟล์ถาวร</span><span class="stat-ico">☁</span></div><strong>ยังไม่มี</strong><span class="tag pending">ยังไม่เชื่อมต่อ</span></div>
+          <div class="stat"><div class="stat-head"><span>ฐานข้อมูลผู้ใช้</span><span class="stat-ico">♙</span></div><strong>ยังไม่มี</strong><span class="tag pending">ยังไม่เชื่อมต่อ</span></div>
+        </div>
+        <div class="section-head"><div><h2>ข้อจำกัดของโฮสต์ปัจจุบัน</h2><p>โปรดพิจารณาก่อนใช้เป็นบริการจริง</p></div></div>
+        <div class="panel">
+          <div class="info-row"><div class="info-icon">⏱</div><div><h3>ไม่ได้รับประกันการออนไลน์ตลอดเวลา</h3><p>บริการนี้ใช้โฮสต์แพ็กเกจ Free ซึ่งอาจพักเครื่องเมื่อไม่มีทราฟฟิกเป็นช่วงหนึ่ง และอาจใช้เวลาปลุกเครื่องเมื่อเปิดเข้ามาใหม่</p></div></div>
+          <div class="info-row"><div class="info-icon">💾</div><div><h3>พื้นที่ไฟล์ของเซิร์ฟเวอร์ไม่ใช่ที่เก็บถาวร</h3><p>ไฟล์ในระบบไฟล์ชั่วคราวอาจหายเมื่อรีสตาร์ตหรือปรับใช้เวอร์ชันใหม่ ต้องมี storage/ฐานข้อมูลที่ออกแบบสำหรับข้อมูลถาวร</p></div></div>
+          <div class="info-row"><div class="info-icon">🔑</div><div><h3>กุญแจ API อยู่ฝั่งเซิร์ฟเวอร์</h3><p>ตัวตรวจสุขภาพแสดงเพียงว่ามีการตั้งค่ากุญแจหรือไม่ จะไม่แสดงค่ากุญแจจริงบนหน้าเว็บ</p></div></div>
+        </div>
+        <div class="section-head"><div><h2>ผลตรวจล่าสุด</h2><p id="healthDetail">กำลังเรียก /api/health...</p></div><button class="btn primary" id="refreshBtn2">ตรวจซ้ำ</button></div>
+        <div class="panel"><div class="mono" id="healthRaw">รอผลตรวจสุขภาพ API</div></div>
+      </section>
+    </div>
+    <footer>Mali AI · ศูนย์กลางโปรเจกต์ส่วนตัว · สถานะระบบจะแสดงตามการเชื่อมต่อจริง</footer>
+  </main>
+</div>
+
 <script>
-  const form = document.querySelector('#chatForm');
-  const input = document.querySelector('#prompt');
-  const sendButton = document.querySelector('#send');
-  const messagesBox = document.querySelector('#messages');
-  const welcome = document.querySelector('#welcome');
-  const statusText = document.querySelector('#statusText');
-  const sideHint = document.querySelector('#sideHint');
-  let history = [];
-  let waiting = false;
+  const pageNames = {
+    overview: ['ภาพรวมระบบ','สถานะของผู้ช่วย AI และองค์ประกอบคลาวด์ส่วนตัว'],
+    chat: ['แชตกับ Mali AI','ผู้ช่วย AI ภาษาไทยของคุณ'],
+    cloud: ['คลาวด์ส่วนตัว','ภาพรวมพื้นที่จัดเก็บไฟล์และสิ่งที่ต้องเชื่อมต่อ'],
+    accounts: ['บัญชีผู้ใช้','การสมัครสมาชิก ความปลอดภัย และสิทธิ์'],
+    backup: ['สำรองข้อมูล','แผนสำรองและกู้คืนข้อมูล'],
+    server: ['เซิร์ฟเวอร์','สุขภาพ API และข้อจำกัดการโฮสต์']
+  };
+  function showView(name) {
+    document.querySelectorAll('.page').forEach(function(p){p.hidden = p.id !== 'view-' + name;});
+    document.querySelectorAll('.nav [data-view]').forEach(function(b){b.classList.toggle('active', b.dataset.view === name);});
+    document.getElementById('pageTitle').textContent = pageNames[name][0];
+    document.getElementById('pageSub').textContent = pageNames[name][1];
+    if(name === 'chat') document.getElementById('prompt').focus();
+    if(name === 'server') refreshHealth();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  document.querySelectorAll('[data-view]').forEach(function(b){b.addEventListener('click',function(){showView(b.dataset.view);});});
+  document.querySelectorAll('[data-prompt]').forEach(function(b){b.addEventListener('click',function(){showView('chat');sendMessage(b.dataset.prompt);});});
+  document.getElementById('refreshBtn').addEventListener('click',refreshHealth);
+  document.getElementById('refreshBtn2').addEventListener('click',refreshHealth);
 
-  function resizeInput(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,140)+'px'; }
+  async function refreshHealth(){
+    var dot = document.getElementById('healthDot');
+    var status = document.getElementById('statusText');
+    var serverState = document.getElementById('serverState');
+    var serverTag = document.getElementById('serverTag');
+    var apiState = document.getElementById('apiState');
+    var apiTag = document.getElementById('apiTag');
+    var aiTitle = document.getElementById('aiCardTitle');
+    var aiTag = document.getElementById('aiCardTag');
+    var detail = document.getElementById('healthDetail');
+    var raw = document.getElementById('healthRaw');
+    status.textContent = 'กำลังตรวจสอบ...';
+    detail.textContent = 'กำลังเรียก /api/health...';
+    raw.textContent = 'กำลังตรวจสุขภาพ API...';
+    try {
+      var response = await fetch('/api/health',{cache:'no-store',headers:{'Accept':'application/json'}});
+      var data = await response.json();
+      if(!response.ok || !data.ok) throw new Error('HTTP ' + response.status);
+      dot.style.background = 'var(--green)';
+      if(data.configured) {
+        status.textContent = 'API พร้อมใช้งาน';
+        aiTitle.textContent = 'API ถูกตั้งค่า';
+        aiTag.textContent = 'พบการตั้งค่า';
+        aiTag.className = 'tag ok';
+        apiState.textContent = 'ตั้งค่าแล้ว';
+        apiTag.textContent = 'ตอบกลับปกติ';
+        apiTag.className = 'tag ok';
+      } else {
+        status.textContent = 'AI ยังไม่พร้อม';
+        aiTitle.textContent = 'ต้องตั้งค่า API';
+        aiTag.textContent = 'ยังขาด API key';
+        aiTag.className = 'tag pending';
+        apiState.textContent = 'ยังไม่ครบ';
+        apiTag.textContent = 'ยังไม่มี API key';
+        apiTag.className = 'tag pending';
+      }
+      serverState.textContent = 'ตอบกลับปกติ';
+      serverTag.textContent = 'HTTP ' + response.status;
+      serverTag.className = 'tag ok';
+      detail.textContent = 'ตรวจเมื่อ ' + new Date().toLocaleString('th-TH') + ' · GET /api/health';
+      raw.textContent = JSON.stringify({ok:data.ok,configured:data.configured,httpStatus:response.status,checkedAt:new Date().toISOString()},null,2);
+    } catch(e) {
+      dot.style.background = 'var(--yellow)';
+      status.textContent = 'ยังตรวจไม่สำเร็จ';
+      aiTitle.textContent = 'ตรวจไม่สำเร็จ';
+      aiTag.textContent = 'ลองตรวจซ้ำ';
+      aiTag.className = 'tag pending';
+      serverState.textContent = 'ไม่ทราบสถานะ';
+      serverTag.textContent = 'ตรวจไม่ผ่าน';
+      serverTag.className = 'tag pending';
+      apiState.textContent = 'ตรวจไม่ผ่าน';
+      apiTag.textContent = 'ยังยืนยันไม่ได้';
+      apiTag.className = 'tag pending';
+      detail.textContent = 'เรียก API ไม่สำเร็จ: ' + (e.message || 'เครือข่ายขัดข้อง');
+      raw.textContent = 'ยังยืนยันสถานะระบบไม่ได้ กรุณากด “ตรวจสอบ” อีกครั้ง';
+    }
+  }
+
+  var form = document.getElementById('chatForm');
+  var input = document.getElementById('prompt');
+  var sendButton = document.getElementById('send');
+  var messagesBox = document.getElementById('messages');
+  var welcome = document.getElementById('chatWelcome');
+  var history = [];
+  var waiting = false;
+  function resizeInput(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,130)+'px';}
   input.addEventListener('input',resizeInput);
-  input.addEventListener('keydown',(event)=>{
-    if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();form.requestSubmit();}
-  });
-
-  function addMessage(role,text){
-    const row=document.createElement('div'); row.className='message '+role;
-    const avatar=document.createElement('div'); avatar.className='avatar'; avatar.textContent=role==='user'?'คุณ':'✦';
-    const bubble=document.createElement('div'); bubble.className='bubble'; bubble.textContent=text;
-    row.append(avatar,bubble); messagesBox.append(row); return row;
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
+  function addMessage(role,text,typing){
+    var row=document.createElement('div');row.className='message '+role;
+    var avatar=document.createElement('div');avatar.className='avatar';avatar.textContent=role==='user'?'คุณ':'✦';
+    var bubble=document.createElement('div');bubble.className='bubble';
+    if(typing){bubble.textContent='กำลังคิดคำตอบ';var dots=document.createElement('span');dots.textContent=' ...';dots.style.color='#b4a7ff';bubble.appendChild(dots);}
+    else bubble.textContent=text;
+    row.append(avatar,bubble);messagesBox.append(row);row.scrollIntoView({behavior:'smooth',block:'end'});
+    return bubble;
   }
-  function scrollToBottom(){ messagesBox.lastElementChild?.scrollIntoView({behavior:'smooth',block:'end'}); }
-  function setWaiting(value){ waiting=value; sendButton.disabled=value; input.disabled=value; statusText.textContent=value?'กำลังคิดคำตอบ...':'ผู้ช่วยพร้อมทำงาน'; }
-
+  function setWaiting(value){waiting=value;sendButton.disabled=value;input.disabled=value;}
   async function sendMessage(rawText){
-    const text=rawText.trim(); if(!text||waiting) return;
-    welcome.hidden=true; messagesBox.hidden=false;
-    history.push({role:'user',content:text}); addMessage('user',text);
-    sideHint.textContent=text.length>44?text.slice(0,44)+'…':text;
-    input.value=''; resizeInput(); setWaiting(true);
-    const typing=addMessage('assistant','กำลังคิดคำตอบ…'); typing.querySelector('.bubble').innerHTML='กำลังคิดคำตอบ<span class="dots"><i></i><i></i><i></i></span>';
-    scrollToBottom();
+    var text=(rawText||'').trim();if(!text||waiting)return;
+    showView('chat');welcome.hidden=true;messagesBox.hidden=false;
+    history.push({role:'user',content:text});addMessage('user',text);
+    input.value='';resizeInput();setWaiting(true);
+    var answerBubble=addMessage('assistant','',true);
     try{
-      const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});
-      const data=await response.json().catch(()=>({}));
-      if(!response.ok) throw new Error(data.error||'ขออภัย เกิดข้อผิดพลาด กรุณาลองอีกครั้ง');
-      typing.querySelector('.bubble').textContent=data.answer;
-      history.push({role:'assistant',content:data.answer});
+      var response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history.slice(-12)})});
+      var data=await response.json().catch(function(){return {};});
+      if(!response.ok)throw new Error(data.error||'ขออภัย เกิดข้อผิดพลาด กรุณาลองอีกครั้ง');
+      answerBubble.textContent=data.answer||'AI ไม่ได้ส่งข้อความตอบกลับ';
+      history.push({role:'assistant',content:data.answer||''});
     }catch(error){
-      typing.querySelector('.bubble').textContent=error.message||'เชื่อมต่อไม่สำเร็จ กรุณาลองใหม่';
+      answerBubble.textContent=error.message||'เชื่อมต่อไม่สำเร็จ กรุณาลองใหม่';
       history.pop();
-    }finally{setWaiting(false);input.focus();scrollToBottom();}
+    }finally{setWaiting(false);input.focus();}
   }
-  function newChat(){history=[];messagesBox.replaceChildren();messagesBox.hidden=true;welcome.hidden=false;input.value='';resizeInput();sideHint.textContent='เริ่มถามคำถามแรกของคุณได้เลย ประวัติแชตจะแสดงในหน้านี้ระหว่างที่เปิดเว็บ';statusText.textContent='ผู้ช่วยพร้อมทำงาน';input.focus();}
-  form.addEventListener('submit',(event)=>{event.preventDefault();sendMessage(input.value);});
-  document.querySelector('#newChat').addEventListener('click',newChat);
-  document.querySelector('#mobileNew').addEventListener('click',newChat);
-  document.querySelectorAll('[data-prompt]').forEach(button=>button.addEventListener('click',()=>sendMessage(button.dataset.prompt)));
+  form.addEventListener('submit',function(e){e.preventDefault();sendMessage(input.value);});
+  document.getElementById('downloadSummary').addEventListener('click',function(){
+    var text =
+'MALI AI — สรุปโปรเจกต์\n\n' +
+'เป้าหมาย: รวมผู้ช่วย AI, เซิร์ฟเวอร์, คลาวด์ส่วนตัว, ระบบบัญชี และการสำรองข้อมูลไว้ในศูนย์กลางที่เปิดจากมือถือและคอมพิวเตอร์ได้\n\n' +
+'สถานะที่มีในโปรเจกต์ปัจจุบัน:\n' +
+'- มีเว็บไซต์ Mali AI และเส้นทาง API แชต /api/chat\n' +
+'- มีเส้นทางตรวจสุขภาพ /api/health\n' +
+'- หน้าเว็บสรุปสถานะระบบและเป้าหมายของแต่ละโมดูล\n\n' +
+'ส่วนที่ยังต้องพัฒนาและเชื่อมต่อจริง:\n' +
+'- ระบบสมัคร/เข้าสู่ระบบและจัดการสิทธิ์\n' +
+'- ฐานข้อมูลผู้ใช้และข้อมูลเมตาของไฟล์\n' +
+'- พื้นที่เก็บไฟล์ถาวร พร้อม API อัปโหลด/ดาวน์โหลด\n' +
+'- ระบบสำรองอัตโนมัติและทดสอบกู้คืน\n' +
+'- โฮสต์ที่รองรับการออนไลน์ต่อเนื่องตามงบประมาณ\n\n' +
+'ข้อควรระวัง: ห้ามถือว่าส่วนคลาวด์ บัญชี และแบ็กอัปพร้อมใช้งานจนกว่าจะเชื่อมต่อและทดสอบแล้ว';
+    var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+    var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='mali-ai-project-summary.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+  });
+  refreshHealth();
 </script>
 </body>
 </html>
